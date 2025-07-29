@@ -11,6 +11,8 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.helpers.event import async_track_time_interval
 
+from .const import DEVICE_INFO
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -21,7 +23,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         SimTempSensor(),
         SimLightSensor(),
         SimPresenceSensor(),
-        SimMotionSensor(),
+        SimMotionSensor()
     ]
     async_add_entities(SimSensors)
 
@@ -42,6 +44,8 @@ class SimTempSensor(SensorEntity):
         self._attr_state = None
         self._attr_device_class = SensorDeviceClass.TEMPERATURE
         self._attr_unique_id = "MustTemp001"
+        self._attr_device_info = DEVICE_INFO
+
         _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
@@ -67,6 +71,7 @@ class SimLightSensor(SensorEntity):
         self._attr_state = None
         self._attr_device_class = SensorDeviceClass.ILLUMINANCE
         self._attr_unique_id = "MustLight001"
+        self._attr_device_info = DEVICE_INFO
         _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
@@ -89,6 +94,7 @@ class SimPresenceSensor(BinarySensorEntity):
         self._attr_is_on = False
         self._attr_device_class = BinarySensorDeviceClass.PRESENCE
         self._attr_unique_id = "MustPresence001"
+        self._attr_device_info = DEVICE_INFO
         _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
@@ -111,6 +117,7 @@ class SimMotionSensor(BinarySensorEntity):
         self._attr_is_on = False
         self._attr_device_class = BinarySensorDeviceClass.MOTION
         self._attr_unique_id = "MustMotion001"
+        self._attr_device_info = DEVICE_INFO
         _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
