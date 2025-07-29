@@ -5,7 +5,8 @@ import logging
 import random
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
+from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.event import async_track_time_interval
 
@@ -34,12 +35,13 @@ class SimTempSensor(SensorEntity):
     """Simulator for a temp sensor."""
 
     def __init__(self):
-        """Construct a temprature sensor object."""
-        self._attr_name = "Simulated Temprature Sensor - MusT"
+        """Construct a temperature sensor object."""
+        self._attr_name = "Simulated Temperature Sensor - MusT"
         self._attr_native_unit_of_measurement = "°C"
         self._attr_state = None
-        self._attr_device_class = "temprature"
+        self._attr_device_class = SensorDeviceClass.TEMPERATURE
         self._attr_unique_id = "MustTemp001"
+        _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
     def state(self):
@@ -49,7 +51,7 @@ class SimTempSensor(SensorEntity):
         """Update the state of temp sensor whenever called in Async mode."""
 
         self._attr_state = round(random.uniform(18.0, 26.0), 1)
-        _LOGGER.debug("temprature sensor state updated to {self._attr_state}")
+        _LOGGER.debug("temperature sensor state updated to %s", self._attr_state)
 
 
 class SimLightSensor(SensorEntity):
@@ -58,14 +60,12 @@ class SimLightSensor(SensorEntity):
     def __init__(self):
         """Construct a Light sensor."""
 
-        self._attr_name = "Simulated Ambient Light Sensor - MusT"
+        self._attr_name = "Simulated Illuminance Sensor - MusT"
         self._attr_native_unit_of_measurement = "lx"
         self._attr_state = None
-        self._attr_device_class = "light"
+        self._attr_device_class = SensorDeviceClass.ILLUMINANCE
         self._attr_unique_id = "MustLight001"
-        _LOGGER.info(
-            "new {self._Attr_device_class} light sensor created {self._Attr_unique_id}"
-        )
+        _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
     def state(self):
@@ -75,19 +75,19 @@ class SimLightSensor(SensorEntity):
     async def async_update(self):
         """Update the state of sensor whenever called in Async mode."""
         self._attr_state = random.randint(100, 1000)
-        _LOGGER.debug("Light sensor state changed to {self._attr_state}")
+        _LOGGER.debug("Light sensor state changed to %s", self._attr_state)
 
 
 class SimPresenceSensor(BinarySensorEntity):
-    """Simulating a software based Presense Sensor."""
+    """Simulating a software based Presence Sensor."""
 
     def __init__(self):
-        """Constructin a binary presence sensor."""
-        self._attr_name = "Simulated Presense Sensor - MusT"
+        """Constructing a binary presence sensor."""
+        self._attr_name = "Simulated Presence Sensor - MusT"
         self._attr_is_on = False
         self._attr_device_class = "presence"
         self._attr_unique_id = "MustPresence001"
-        _LOGGER.info("new {self._attr_device_class} created {self._attr_unique_id}")
+        _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
     def is_on(self):
@@ -97,7 +97,7 @@ class SimPresenceSensor(BinarySensorEntity):
     async def async_update(self):
         """Update the state of sensor whenever called in Async mode."""
         self._attr_is_on = random.choice([True, False])
-        _LOGGER.debug("Presence sensor state changed to {self._attr_is_on}")
+        _LOGGER.debug("Presence sensor state changed to %s", self._attr_is_on)
 
 
 class SimMotionSensor(BinarySensorEntity):
@@ -109,7 +109,7 @@ class SimMotionSensor(BinarySensorEntity):
         self._attr_is_on = False
         self._attr_device_class = "motion"
         self._attr_unique_id = "MustMotion001"
-        _LOGGER.info("new {self._attr_device_class} created {self._Attr_unique_id}")
+        _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
     @property
     def is_on(self):
@@ -119,4 +119,4 @@ class SimMotionSensor(BinarySensorEntity):
     async def async_update(self):
         """Update the state of sensor whenever called in Async mode."""
         self._attr_is_on = random.choice([True, False])
-        _LOGGER.debug("motion sensor state changed to {self_attr_is_on}")
+        _LOGGER.debug("motion sensor state changed to %s", self._attr_is_on)
