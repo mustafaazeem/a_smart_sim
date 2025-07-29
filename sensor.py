@@ -4,10 +4,11 @@ from datetime import timedelta
 import logging
 import random
 
-from homeassistant.components.binary_sensor import BinarySensorEntity
-from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
-from homeassistant.components.binary_sensor import BinarySensorDeviceClass
-from homeassistant.helpers.entity import Entity
+from homeassistant.components.binary_sensor import (
+    BinarySensorDeviceClass,
+    BinarySensorEntity,
+)
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.helpers.event import async_track_time_interval
 
 _LOGGER = logging.getLogger(__name__)
@@ -85,7 +86,7 @@ class SimPresenceSensor(BinarySensorEntity):
         """Constructing a binary presence sensor."""
         self._attr_name = "Simulated Presence Sensor - MusT"
         self._attr_is_on = False
-        self._attr_device_class = "presence"
+        self._attr_device_class = BinarySensorDeviceClass.PRESENCE
         self._attr_unique_id = "MustPresence001"
         _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
@@ -107,7 +108,7 @@ class SimMotionSensor(BinarySensorEntity):
         """Constructing a binary motion detection sensor."""
         self._attr_name = "Simulated Motion Detection Sensor - MusT"
         self._attr_is_on = False
-        self._attr_device_class = "motion"
+        self._attr_device_class = BinarySensorDeviceClass.MOTION
         self._attr_unique_id = "MustMotion001"
         _LOGGER.info("new %s created %s", self._attr_device_class, self._attr_unique_id)
 
