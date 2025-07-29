@@ -46,6 +46,7 @@ class SimTempSensor(SensorEntity):
 
     @property
     def state(self):
+        '''Return state of Temperature Sensor.'''
         return self._attr_state
 
     async def async_update(self):
