@@ -19,11 +19,14 @@ _LOGGER = logging.getLogger(__name__)
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Create simulated software sensors."""
 
+    _LOGGER.info("Configuration parameters received: %s", config)
+    _LOGGER.error("Testing logs for a smart sim loading!")
+
     SimSensors = [
         SimTempSensor(),
         SimLightSensor(),
         SimPresenceSensor(),
-        SimMotionSensor()
+        SimMotionSensor(),
     ]
     async_add_entities(SimSensors)
 
@@ -50,7 +53,7 @@ class SimTempSensor(SensorEntity):
 
     @property
     def state(self):
-        '''Return state of Temperature Sensor.'''
+        """Return state of Temperature Sensor."""
         return self._attr_state
 
     async def async_update(self):
