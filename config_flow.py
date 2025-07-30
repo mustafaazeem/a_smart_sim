@@ -31,7 +31,8 @@ class ASmartSimConfigFlow(ConfigFlow, domain=DOMAIN):
         """Handle the initial setup via user-step."""
 
         if user_input is None:
-            """If user just visited first time, there is no input, send default form then."""
-            return self.async_show_form(step_id="user")
+            '''Show form with name and update_interval fields on first visit.'''
+            return self.async_show_form(step_id="user", data_schema=STEP_USER_DATA_SCHEMA)
 
+        # User submitted a form, Create config entry with user submitted data. 
         return self.async_create_entry(title="a_smart_sim", data=user_input)

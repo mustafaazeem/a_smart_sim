@@ -11,9 +11,28 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.helpers.event import async_track_time_interval
 
-from .const import DEVICE_INFO
+from .const import DEVICE_INFO, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
+
+async def async_setup_entry(hass, entry, async_add_entities):
+    '''Set up sensors form the config entry.'''
+
+    # Fetch config data from config entry 
+    config_data = hass.data[DOMAIN][entry.entry_id]
+    name = config_data.get("name", "a_smart_sim")
+    update_interval = config_data.get("update_interval", 10)
+
+    _LOGGER.info("Setting up sensors for %s with %s interval", name, update_interval)
+
+    Sensors = [SimTempSensor(), SimLightSensor(), SimMotionSensor(), SimPresenceSensor()]
+    async_add_entities(Sensors)
+
+    async def async_update_sensors(now):
+        for sensor in Sensors:
+            sensor.async_schedule_update_ha_state(True)
+
+    async_track_time_interval(hass, async_update_sensors, timedelta=update_interval)
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
